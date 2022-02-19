@@ -33,7 +33,7 @@ export const RestaurantsScreen = () => {
             <RestaurantInfoCard />
           </Spacer>
         )}
-        keyExtractor={(item) => item.name}
+        keyExtractor={(item) => item}
         contentContainerStyle={{ padding: 16 }}
       />
     </SafeArea>
