@@ -1,7 +1,9 @@
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { ThemeProvider } from "styled-components/native";
-import * as firebase from "firebase";
+
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 import {
   useFonts as useOswald,
@@ -16,18 +18,36 @@ import { RestaurantsContextProvider } from "./src/services/restaurants/restauran
 import { LocationContextProvider } from "./src/services/location/location.context";
 import { FavouritesContextProvider } from "./src/services/favourites/favourites.context";
 
+// Initialize Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCoeVlfZ6Map9EZLiYMtaTXjMVIEcMoZUE",
   authDomain: "mealstogo-354ca.firebaseapp.com",
+  databaseURL: "https://project-id.firebaseio.com",
   projectId: "mealstogo-354ca",
   storageBucket: "mealstogo-354ca.appspot.com",
   messagingSenderId: "430282346115",
   appId: "1:430282346115:web:4fed486598c36d557ed5b6",
+  measurementId: "G-measurement-id",
 };
 
-firebase.initializeApp(firebaseConfig);
+initializeApp(firebaseConfig);
 
 export default function App() {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  useEffect(() => {
+    setTimeout(() => {
+      const auth = getAuth();
+      signInWithEmailAndPassword(auth, "mo@binni.io", "test123")
+        .then((userCredential) => {
+          console.log(userCredential);
+          setIsAuthenticated(true);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }, 2000);
+  }, []);
+
   const [oswaldLoaded] = useOswald({
     Oswald_400Regular,
   });
@@ -39,6 +59,8 @@ export default function App() {
   if (!oswaldLoaded || !latoLoaded) {
     return null;
   }
+
+  if (!isAuthenticated) return null;
 
   return (
     <>
