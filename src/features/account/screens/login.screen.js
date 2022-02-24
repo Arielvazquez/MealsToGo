@@ -19,6 +19,7 @@ export const LoginScreen = ({ navigation }) => {
   return (
     <AccountBackground>
       <AccountCover />
+      <Title>Meals To Go</Title>
       <AccountContainer>
         <AuthInput
           label="E-mail"
@@ -35,7 +36,6 @@ export const LoginScreen = ({ navigation }) => {
             textContentType="password"
             secureTextEntry
             autoCapitalize="none"
-            secure
             onChangeText={(p) => setPassword(p)}
           />
         </Spacer>
